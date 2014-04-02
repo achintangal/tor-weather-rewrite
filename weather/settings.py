@@ -5,7 +5,6 @@ PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
 #DEBUG = True #set to true to see stack traces instead of standard html errors
 DEBUG = False #set to true to see stack traces instead of standard html errors
 TEMPLATE_DEBUG = DEBUG
-
 ADMINS = (
      ('Weather Admin', 'kaner@torproject.org'),
 )
@@ -18,7 +17,10 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': PROJECT_PATH + "/../var/WeatherDB",                      # Or path to database file if using sqlite3.
+        # Production database file
+        # 'NAME': PROJECT_PATH + "/../var/WeatherDB",                      # Or path to database file if using sqlite3.
+        # Testing database file
+        'NAME': PROJECT_PATH + "/WeatherDB",                      # Or path to database file if using sqlite3.
         'TEST_NAME': 'WeatherTestDB',
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
@@ -106,8 +108,12 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
 )
+# By default, send outgoing mail to a file for testing mode. Comment out to use local SMTP server for production mode.
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH = PROJECT_PATH + "/log/test-emails.txt"
 
-#SMTP server configuration
+
+# SMTP server configuration
 EMAIL_HOST = 'localhost'
 EMAIL_HOST_PASSWORD = '' 
 EMAIL_HOST_USER = ''
